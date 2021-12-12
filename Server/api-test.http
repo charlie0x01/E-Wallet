@@ -1,0 +1,27 @@
+@host = http://localhost:5000
+
+
+POST {{host}}/api/auth/register
+
+###
+
+POST {{host}}/api/auth/login
+
+###
+
+POST {{host}}/api/auth/forgetpassword
+
+###
+
+PUT {{host}}/api/auth/resetpassword/:1
+
+####
+
+POST {{host}}/api/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Abdullah",
+    "email": "mern_stack@gmail.com",
+    "password": "12345678"
+}
