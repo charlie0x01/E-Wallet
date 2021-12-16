@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // any request hit on "/api/auth" directed to the auth routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/auth', require('./routes/auth'));
 
 // protect routes
 app.use('/', require("./routes/private"));
