@@ -1,71 +1,59 @@
 const User = require("../models/User");
-const ErrorResponse = require("../utils/errorResponse");
 
-exports.register = (req, res, next) => {
-    
+exports.register = async (req, res, next) => {
+  try {
     // extract data from request body
-    const {username, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    // check whether user already exist
-    User.findOne({email: email})
-    .then((user) => {
-        if(user)
-            return next(new ErrorResponse("User with this email already exist", 409));
-        // User.create will automatically create user object and then save it in database
-        // it returns a promise
-        User.create({
-            username,
-            email,
-            password
-        })
-        .then((user) => {
-            sendToken(user, 201, res);
-        })
-        .catch((error) => {
-            next(error);
-        });
-    })
-    .catch((error) => {
-        next(error);
-    });
+    // check username, email and password
+    // any of these shouldn't be empty
+    let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+    if (!username || !email || !password)
+      return res.status(401).json({ message: "there shouldn't be any empty" });
+
+    // check whether email is valid or not
+    if (!regex.test(email))
+      return res.status(401).json({ mesage: "Invalid Email" });
+
+    // check password length
+    if (password.length > 14 || password.length < 7)
+      return res.json({
+        message: "password should be 8 to 15 characters long",
+      });
+
+    // if the email already exist
+    let [found, _] = await User.findByEmailID(email);
+    if (found.length > 0)
+      return res.status(403).json({ mesage: `email already exist` });
+
+    // register user
+    let user = new User(username, email, password);
+    const [response, __] = await user.save();
+    // if user saved successfully
+    if (response.warningStatus === 0)
+      return res.status(201).json({ message: "User Registered Successfully" });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.login = (req, res, next) => {
-    
-    // 1st take email and password from requ est
-    const { email, password } = req.body;
+  // 1st extract email and password from request body
+  const { email, password } = req.body;
 
-    // check whether email and password is not empty
-    if(!email || !password)
-        return next(new ErrorResponse("Please provide email and password", 404));
-
-    User.findOne({ email }).select("+password")
-    .then((user) => {
-
-        if(!user)
-            return next(new ErrorResponse("Invalid Credentials", 401)); 
-
-        user.matchPasswords(password)
-        .then((isMatched) => {
-            if(!isMatched)
-                return next(new ErrorResponse("Invalid Credentials", 401)); 
-            
-            sendToken(user, 200, res);
-        })
-    })
-    .catch((error) => {
-        next(error);
-    });
+  // check email and password is not empty
+  if (!email || !password)
+    return res.status(404).send("Please provide email and password");
 };
 
 exports.forgetPassword = (req, res, next) => {
-    res.send("forget password");
+  res.send("forget password");
 };
 
 exports.resetPassword = (req, res, next) => {
-    res.send("reset password");
+  res.send("reset password");
 };
 
-const sendToken = (user, statusCode, res) => {
-    res.status(statusCode).json({ success: true, token: user.getSignedToken() });
-};
+// const sendToken = (user, statusCode, res) => {
+//     res.status(statusCode).json({ success: true, token: user.getSignedToken() });
+// };
