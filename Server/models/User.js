@@ -1,4 +1,4 @@
-const pool = require("../config/db");
+const { pool, transaction } = require("../config/db");
 
 class User {
   constructor(username, email, password) {
@@ -7,14 +7,34 @@ class User {
     this.password = password;
   }
 
-  save() {
+  async save() {
     // create a query to register user in database
-    let registerQuery = `
-        insert into users(username, email, password)
-        values( '${this.username}', '${this.email}', '${this.password}');`;
+    // after registering new user, we will create a new wallet for the new user
+    let registerUser = `insert into users(username, email, password) values(?, ?, ?); `;
+    let getWallet = `select u.username, u.email, w.balance
+                  from users as u 
+                  inner join wallets as w on w.userid = u.userid
+                  where u.userid = ?;`;
 
-    // now let's run the query
-    return pool.execute(registerQuery);
+    // create user and assign a wallet to the new user with init balance 0
+    transaction(pool, async (connection) => {
+      const result = await connection.execute(registerUser, [
+        this.username,
+        this.email,
+        this.password,
+      ]);
+      await connection.execute(
+        "insert into wallets(userid, balance) values(?, 0)",
+        [result[0].insertId]
+      );
+    });
+
+    // get user wallet
+    const [userid, _] = await pool.execute(
+      "select max(userid) as maxid from users"
+    );
+    const [wallet, __] = await pool.execute(getWallet, [userid[0].maxid]);
+    return wallet[0];
   }
 
   static findAll() {
@@ -23,42 +43,15 @@ class User {
   }
 
   static findByEmailID(emailID) {
-    let query = `select * from users where email = '${emailID}';`;
-    return pool.execute(query);
+    let query = `select * from users where email = ?;`;
+    return pool.execute(query, [emailID]);
   }
 }
 
 module.exports = User;
 
-// const mongoose = require("mongoose");
 // const bcrypt = require("bcrypt");
 // const jwt = require("jsonwebtoken");
-
-// const userSchema = new mongoose.Schema({
-//     username: {
-//         type: String,
-//         required: [true, "Please provide a username"]
-//     },
-//     email: {
-//         type: String,
-//         required: [true, "Please provide an email"],
-//         unique: true,
-//         match: [
-//             /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-//             "Please provide valid email"
-//         ]
-//     },
-//     password: {
-//         type: String,
-//         required: [true, "please enter a password"],
-//         minlength: 6,
-//         select: false
-//     },
-
-//     resetPasswordToken: String,
-//     resetPasswordExpire: Date
-
-// });
 
 // // encrypt password before saving in database
 // userSchema.pre('save', async function(next){

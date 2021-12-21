@@ -28,10 +28,9 @@ exports.register = async (req, res, next) => {
 
     // register user
     let user = new User(username, email, password);
-    const [response, __] = await user.save();
-    // if user saved successfully
-    if (response.warningStatus === 0)
-      return res.status(201).json({ message: "User Registered Successfully" });
+    const data = await user.save();
+    // if user saved successfully\
+    return res.status(201).json(data);
   } catch (error) {
     next(error);
   }
