@@ -1,27 +1,28 @@
 @host = http://localhost:5000
 
-
-POST {{host}}/api/auth/register
-
-###
-
-POST {{host}}/api/auth/login
-
-###
-
-POST {{host}}/api/auth/forgetpassword
-
-###
-
-PUT {{host}}/api/auth/resetpassword/:1
-
-####
-
-POST {{host}}/api/auth/register HTTP/1.1
-content-type: application/json
+# Register API test
+POST {{host}}/auth/register
+Content-Type: application/json
 
 {
-    "username": "Abdullah",
-    "email": "mern_stack@gmail.com",
-    "password": "12345678"
+    "username": "user-test5",
+    "email": "email-test5@test.com",
+    "password": "pass-test5"
 }
+
+
+###
+# Login API test
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "email-test4@test.com",
+    "password": "pass-test4"
+}
+
+###
+# access private route with token
+GET  {{host}}/private
+Content-Type: application/json
+Authorization: Bearer <enter-you-token-here>

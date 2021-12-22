@@ -1,6 +1,5 @@
-require("dotenv").config({ path: "./.env"});
+require("dotenv").config({ path: "./.env" });
 const express = require("express");
-const domain = require("domain");
 // const errorHandler = require("./middleware/error");
 
 const app = express();
@@ -11,10 +10,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // any request hit on "/api/auth" directed to the auth routes
-app.use('/auth', require('./routes/auth'));
+app.use("/auth", require("./routes/auth"));
 
 // protect routes
-// app.use('/', require("./routes/private"));
+app.use("/", require("./routes/private"));
 
 // errorHandler, should be the last piece of middleware
 // app.use(errorHandler);
@@ -24,9 +23,11 @@ const server = app.listen(PORT, () => console.log(`Up & Running on ${PORT}`));
 
 // handle 'UnhandledRejection' to prevent server crash
 // if UnhandledRejection Error occure, just close the server
-process.on('unhandledRejection', (reason, promise) => {
-    console.log('Unhandled Rejection at:', reason.stack || reason)
-    // Recommended: send the information to sentry.io
-    // or whatever crash reporting service you use
-    server.close(() => { process.exit(1)});
-  })
+process.on("unhandledRejection", (reason, promise) => {
+  console.log("Unhandled Rejection at:", reason.stack || reason);
+  // Recommended: send the information to sentry.io
+  // or whatever crash reporting service you use
+  server.close(() => {
+    process.exit(1);
+  });
+});
