@@ -1,4 +1,7 @@
+require("dotenv").config();
 const { pool, transaction } = require("../config/db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class User {
   constructor(username, email, password) {
@@ -7,34 +10,31 @@ class User {
     this.password = password;
   }
 
-  async save() {
+  save() {
     // create a query to register user in database
     // after registering new user, we will create a new wallet for the new user
     let registerUser = `insert into users(username, email, password) values(?, ?, ?); `;
-    let getWallet = `select u.username, u.email, w.balance
-                  from users as u 
-                  inner join wallets as w on w.userid = u.userid
-                  where u.userid = ?;`;
-
-    // create user and assign a wallet to the new user with init balance 0
-    transaction(pool, async (connection) => {
-      const result = await connection.execute(registerUser, [
-        this.username,
-        this.email,
-        this.password,
-      ]);
-      await connection.execute(
-        "insert into wallets(userid, balance) values(?, 0)",
-        [result[0].insertId]
-      );
-    });
-
-    // get user wallet
-    const [userid, _] = await pool.execute(
-      "select max(userid) as maxid from users"
-    );
-    const [wallet, __] = await pool.execute(getWallet, [userid[0].maxid]);
-    return wallet[0];
+    try {
+      // encrypt password before saving in database
+      bcrypt.genSalt(10, (error, salt) => {
+        bcrypt.hash(this.password, salt, (error, hash) => {
+          // create user and assign a wallet to the new user with init balance 0
+          transaction(pool, async (connection) => {
+            const result = await connection.execute(registerUser, [
+              this.username,
+              this.email,
+              hash,
+            ]);
+            await connection.execute(
+              "insert into wallets(userid, balance) values(?, 0)",
+              [result[0].insertId]
+            );
+          });
+        });
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   static findAll() {
@@ -42,9 +42,20 @@ class User {
     return pool.execute(query);
   }
 
-  static findByEmailID(emailID) {
+  static findByEmailId(emailID) {
     let query = `select * from users where email = ?;`;
     return pool.execute(query, [emailID]);
+  }
+
+  static matchPassword(user, userPassword) {
+    // compare the registered password with login password
+    return bcrypt.compare(userPassword, user.Password);
+  }
+
+  static getSignedToken(user) {
+    return jwt.sign({ email: user.Email }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
   }
 }
 
