@@ -25,4 +25,4 @@ Content-Type: application/json
 # access private route with token
 GET  {{host}}/private
 Content-Type: application/json
-Authorization: Bearer <enter-you-token-here>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLXRlc3Q0QHRlc3QuY29tIiwiaWF0IjoxNjQwMjY5Mjc3LCJleHAiOjE2NDAyNjk4Nzd9.kN2PZr54t5WTF5MgNkjKoYQ-SVUXFwPOmKKsOS-pgjI

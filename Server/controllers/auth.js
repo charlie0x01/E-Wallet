@@ -8,20 +8,22 @@ exports.register = async (req, res, next) => {
     // check username, email and password
     // any of these shouldn't be empty
     if (!username || !email || !password) {
-      return res
-        .status(401)
-        .json({ message: "user information shouldn't be empty" });
+      return res.status(401).json({
+        success: false,
+        message: "user information shouldn't be empty",
+      });
     }
 
     // check whether email is valid or not
     let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
     if (!regex.test(email)) {
-      return res.status(401).json({ mesage: "Invalid Email" });
+      return res.status(401).json({ success: false, message: "Invalid Email" });
     }
 
     // check password length
     if (password.length > 14 || password.length < 7) {
       return res.json({
+        success: false,
         message: "password should be 8 to 15 characters long",
       });
     }
@@ -29,7 +31,9 @@ exports.register = async (req, res, next) => {
     // if the email already exist
     let [found, _] = await User.findByEmailId(email);
     if (found.length > 0) {
-      return res.status(403).json({ mesage: `email already exist` });
+      return res
+        .status(403)
+        .json({ success: false, message: `email already exist` });
     }
 
     // register user
@@ -38,7 +42,10 @@ exports.register = async (req, res, next) => {
     // if user saved successfully\
     return res
       .status(201)
-      .json({ message: `${username}, you registered successfully` });
+      .json({
+        success: true,
+        message: `${username}, you registered successfully`,
+      });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

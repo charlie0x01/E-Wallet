@@ -1,3 +1,4 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
@@ -29,12 +30,17 @@ exports.protect = async (req, res, next) => {
     // check if we found any user with given email
     if (!user[0])
       return res
-        .status(404)
-        .json({ success: false, message: "No user found with this email" });
+        .status(401)
+        .json({ success: false, message: "Unauthorized Access" });
     // set req.user with this user
     req.user = user[0];
     next();
   } catch (error) {
+    if (error.message === "jwt malformed")
+      return res
+        .status(500)
+        .json({ success: false, message: "Unauthorized Access" });
+
     res.status(500).json({ success: false, message: error.message });
   }
 };
