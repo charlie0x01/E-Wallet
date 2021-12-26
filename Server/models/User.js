@@ -36,6 +36,17 @@ class User {
       throw error;
     }
   }
+  static updatePassword(email, newPassword) {
+    // update user password in database
+    let updatePass = `update users set password = ? where email = ? `;
+    try {
+      transaction(pool, async (connection) => {
+        await connection.execute(updatePass, [newPassword, email]);
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static findAll() {
     let query = `select * from users;`;
@@ -53,6 +64,12 @@ class User {
   }
 
   static getSignedToken(user) {
+    return jwt.sign({ email: user.Email }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+  }
+
+  static getResetPasswordToken(user) {
     return jwt.sign({ email: user.Email }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRE,
     });

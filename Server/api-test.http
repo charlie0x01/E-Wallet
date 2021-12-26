@@ -5,9 +5,9 @@ POST {{host}}/auth/register
 Content-Type: application/json
 
 {
-    "username": "user-test5",
-    "email": "email-test5@test.com",
-    "password": "pass-test5"
+    "username": "Abdullah",
+    "email": "malikabdullahtanveer73@gmail.com",
+    "password": "abdullah12343"
 }
 
 
@@ -26,3 +26,23 @@ Content-Type: application/json
 GET  {{host}}/private
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLXRlc3Q0QHRlc3QuY29tIiwiaWF0IjoxNjQwMjY5Mjc3LCJleHAiOjE2NDAyNjk4Nzd9.kN2PZr54t5WTF5MgNkjKoYQ-SVUXFwPOmKKsOS-pgjI
+
+###
+# forgot password
+POST {{host}}/auth/forgetpassword
+Content-Type: application/json
+
+{
+    "email": "malikabdullahtanveer73@gmail.com"
+}
+
+###
+# reset password
+POST {{host}}/auth/resetpassword
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbGlrYWJkdWxsYWh0YW52ZWVyNzNAZ21haWwuY29tIiwiaWF0IjoxNjQwNTUxMzY2LCJleHAiOjE2NDA1NTE5NjZ9.pRsJpbcaS-QWBgp5FY0TRjrstsSk6IWO5pHw8Vzq3VI
+
+{
+    "email": "malikabdullahtanveer73@gmail.com",
+    "newPassword": "0987654"
+}
