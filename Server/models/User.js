@@ -40,8 +40,13 @@ class User {
     // update user password in database
     let updatePass = `update users set password = ? where email = ? `;
     try {
-      transaction(pool, async (connection) => {
-        await connection.execute(updatePass, [newPassword, email]);
+      // encrypt password before saving in database
+      bcrypt.genSalt(10, (error, salt) => {
+        bcrypt.hash(this.password, salt, (error, hash) => {
+          transaction(pool, async (connection) => {
+            await connection.execute(updatePass, [newPassword, email]);
+          });
+        });
       });
     } catch (error) {
       throw error;
