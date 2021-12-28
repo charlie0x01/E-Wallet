@@ -5,9 +5,9 @@ POST {{host}}/auth/register
 Content-Type: application/json
 
 {
-    "username": "Abdullah",
-    "email": "malikabdullahtanveer73@gmail.com",
-    "password": "abdullah12343"
+    "username": "DespositCash",
+    "email": "DespositCash@test.com",
+    "password": "DespositCash"
 }
 
 
@@ -17,15 +17,15 @@ POST {{host}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "email-test4@test.com",
-    "password": "pass-test4"
+    "email": "DespositCash@test.com",
+    "password": "DespositCash"
 }
 
 ###
 # access private route with token
 GET  {{host}}/private
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLXRlc3Q0QHRlc3QuY29tIiwiaWF0IjoxNjQwMjY5Mjc3LCJleHAiOjE2NDAyNjk4Nzd9.kN2PZr54t5WTF5MgNkjKoYQ-SVUXFwPOmKKsOS-pgjI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlc3Bvc2l0Q2FzaEB0ZXN0LmNvbSIsImlhdCI6MTY0MDY3ODA2MiwiZXhwIjoxNjQwNjg1MjYyfQ.xyF9FvfIA8oIDDGbNxFxjYFnyAU-Jjrp34DLZ1Up74U
 
 ###
 # forgot password
@@ -45,4 +45,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbGlrY
 {
     "email": "malikabdullahtanveer73@gmail.com",
     "newPassword": "0987654"
+}
+
+###
+# Deposit Cash in Wallet
+POST {{host}}/wallet/deposit
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlc3Bvc2l0Q2FzaEB0ZXN0LmNvbSIsImlhdCI6MTY0MDY3ODA2MiwiZXhwIjoxNjQwNjg1MjYyfQ.xyF9FvfIA8oIDDGbNxFxjYFnyAU-Jjrp34DLZ1Up74U
+
+{
+    "WalletId": 92,
+    "Cash": 500
 }
