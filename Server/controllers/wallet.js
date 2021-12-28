@@ -1,4 +1,7 @@
-exports.cashDeposit = (req, res, next) => {
-  res.send("you can deposit cash easily");
+const Wallet = require("../models/Wallet");
+
+exports.cashDeposit = async (req, res, next) => {
+  const { Cash, WalletId } = req.body;
+  const responst = await Wallet.cashDeposit(Cash, WalletId);
   next();
 };
