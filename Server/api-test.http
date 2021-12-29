@@ -25,7 +25,7 @@ Content-Type: application/json
 # access private route with token
 GET  {{host}}/private
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlc3Bvc2l0Q2FzaEB0ZXN0LmNvbSIsImlhdCI6MTY0MDY3ODA2MiwiZXhwIjoxNjQwNjg1MjYyfQ.xyF9FvfIA8oIDDGbNxFxjYFnyAU-Jjrp34DLZ1Up74U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlc3Bvc2l0Q2FzaEB0ZXN0LmNvbSIsImlhdCI6MTY0MDc5ODgxMywiZXhwIjoxNjQwODA2MDEzfQ.KM0Oz-UkyYkHzeF0Wy7zEcg18p4fSCx_nV3_k_Jw8cw
 
 ###
 # forgot password

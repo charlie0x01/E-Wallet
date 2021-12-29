@@ -55,6 +55,7 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   // 1st extract email and password from request body
   const { email, password } = req.body;
+  console.log(email + " " + password);
 
   // check email and password is not empty
   if (!email || !password) {
@@ -80,7 +81,7 @@ exports.login = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Invalid Password" });
     }
-
+    console.log(user[0]);
     // send token
     sendToken(user[0], 200, res);
   } catch (error) {
@@ -170,5 +171,10 @@ exports.resetPassword = async (req, res, next) => {
 const sendToken = (user, statusCode, res) => {
   res
     .status(statusCode)
-    .json({ success: true, token: User.getSignedToken(user) });
+    .json({
+      success: true,
+      token: User.getSignedToken(user),
+      username: user.UserName,
+      userid: user.UserID,
+    });
 };
