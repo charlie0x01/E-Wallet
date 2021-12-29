@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Net.Http;
+using System.Text;
 using System.Windows.Forms;
 using DesktopClientApp.Models;
+using Newtonsoft.Json;
 
 namespace DesktopClientApp
 {
@@ -15,9 +18,6 @@ namespace DesktopClientApp
 
         private void lblAlreadyRegistered_Click(object sender, EventArgs e)
         {
-
-            frmLogin frmlogin = new frmLogin();
-            frmlogin.Show();
             this.Close();
         }
 
@@ -25,7 +25,27 @@ namespace DesktopClientApp
         {
             try
             {
-                var user = String.Format("username={}, ");
+                using (var client = new HttpClient())
+                {
+                    var endpoint = "http://localhost:5000/auth/register";
+                    var user = new User
+                    {
+                        username = txtUsername.Text,
+                        email = txtEmail.Text,
+                        password = txtPassword.Text,
+                    };
+                    var userJson = JsonConvert.SerializeObject(user);
+                    var body = new StringContent(userJson, Encoding.UTF8, "application/json");
+                    var result = client.PostAsync(endpoint, body).Result.Content;
+                    var response = JsonConvert.DeserializeObject<Response>(result.ReadAsStringAsync().Result);
+                    if (response.success == true)
+                    {
+                        MessageBox.Show(response.message);
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(response.message);
+                }
             }
             catch (Exception ex)
             {

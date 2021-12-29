@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
             this.pnlTopBar = new System.Windows.Forms.Panel();
             this.pbMinimize = new System.Windows.Forms.PictureBox();
@@ -43,6 +44,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnRegister = new System.Windows.Forms.Button();
+            this.tInternetCheck = new System.Windows.Forms.Timer(this.components);
             this.pnlTopBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMinimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbExit)).BeginInit();
@@ -145,11 +147,12 @@
             // 
             this.lblNotificationMessage.AutoSize = true;
             this.lblNotificationMessage.Font = new System.Drawing.Font("Microsoft YaHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNotificationMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblNotificationMessage.Location = new System.Drawing.Point(119, 470);
             this.lblNotificationMessage.Name = "lblNotificationMessage";
-            this.lblNotificationMessage.Size = new System.Drawing.Size(213, 27);
+            this.lblNotificationMessage.Size = new System.Drawing.Size(190, 27);
             this.lblNotificationMessage.TabIndex = 5;
-            this.lblNotificationMessage.Text = "Notification Message";
+            this.lblNotificationMessage.Text = "No Internet Access";
             this.lblNotificationMessage.Visible = false;
             // 
             // lblForgotPassword
@@ -206,6 +209,11 @@
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
+            // tInternetCheck
+            // 
+            this.tInternetCheck.Interval = 1000;
+            this.tInternetCheck.Tick += new System.EventHandler(this.tInternetCheck_Tick);
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -251,6 +259,7 @@
         private System.Windows.Forms.PictureBox pbMinimize;
         private System.Windows.Forms.PictureBox pbExit;
         private System.Windows.Forms.Button btnRegister;
+        private System.Windows.Forms.Timer tInternetCheck;
     }
 }
 

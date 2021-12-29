@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Net.Http;
+using DesktopClientApp.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace DesktopClientApp
 {
@@ -24,7 +22,7 @@ namespace DesktopClientApp
         
         private Point _mouseLoc;
 
-        private static bool IsInternetConnected()
+        public static bool IsInternetConnected()
         {
             int Desc;
             return InternetGetConnectedState(out Desc, 0);
@@ -32,18 +30,11 @@ namespace DesktopClientApp
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
+            tInternetCheck.Start();
             
             if (!IsInternetConnected())
             {
-                // custom label
-                lblNotificationMessage.Text = "No Internet Access";
-                // center the notification message
-                Rectangle parentRect = lblNotificationMessage.Parent.ClientRectangle;
-                lblNotificationMessage.Left = (parentRect.Width - lblNotificationMessage.Width) / 2;
-                // change label text color to red, because it's an error
-                lblNotificationMessage.ForeColor = Color.FromArgb(217, 0, 0);
-                lblNotificationMessage.Visible = true;
-                this.Enabled = false;
+                disableLogin();
             }
         }
 
@@ -82,6 +73,7 @@ namespace DesktopClientApp
             this.Hide();
             frmRegister frmregister = new frmRegister();
             frmregister.ShowDialog();
+            this.Show();
         }
 
         private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
@@ -94,7 +86,59 @@ namespace DesktopClientApp
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            using(var client = new HttpClient())
+            {
+                var endpoint = "http://localhost:5000/auth/login";
+                var user = new User
+                {
+                    email = txtEmail.Text,
+                    password = txtPassword.Text,
+                };
+                var userJson = JsonConvert.SerializeObject(user);
+                var body = new StringContent(userJson, Encoding.UTF8, "application/json");
+                var result = client.PostAsync(endpoint, body).Result.Content;
+                var response = JsonConvert.DeserializeObject<Response>(result.ReadAsStringAsync().Result);
+                if (response.success == true)
+                {
+                    txtEmail.Clear();
+                    txtPassword.Clear();
+                    this.Hide();
+                    user.accessToken = response.token;
+                    user.username = response.username;
+                    user.userid = response.userid;
+                    tInternetCheck.Stop();
+                    frmMain main = new frmMain(user);
+                    main.ShowDialog();
+                    tInternetCheck.Start();
+                    this.Show();
+                }
+                else
+                    MessageBox.Show(response.message);
+            }
+            
+        }
+        private void disableLogin()
+        {
+            btnLogin.Enabled = false;
+            btnRegister.Enabled = false;
+            // center the notification message
+            Rectangle parentRect = lblNotificationMessage.Parent.ClientRectangle;
+            lblNotificationMessage.Left = (parentRect.Width - lblNotificationMessage.Width) / 2;
+            lblNotificationMessage.Visible = true;
+        }
 
+        private void tInternetCheck_Tick(object sender, EventArgs e)
+        {
+            if (!IsInternetConnected())
+            {
+                disableLogin();
+            }
+            else
+            {
+                btnLogin.Enabled = true;
+                btnRegister.Enabled = true;
+                lblNotificationMessage.Visible = false;
+            }
         }
     }
 }
