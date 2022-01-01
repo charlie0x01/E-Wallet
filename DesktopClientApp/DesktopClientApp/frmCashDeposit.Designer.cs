@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCashDeposit));
             this.txtAmount = new System.Windows.Forms.TextBox();
             this.btnDeposit = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -36,7 +37,7 @@
             // txtAmount
             // 
             this.txtAmount.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAmount.Location = new System.Drawing.Point(55, 64);
+            this.txtAmount.Location = new System.Drawing.Point(36, 58);
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(239, 31);
             this.txtAmount.TabIndex = 2;
@@ -45,9 +46,9 @@
             // btnDeposit
             // 
             this.btnDeposit.Font = new System.Drawing.Font("Microsoft YaHei", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeposit.Location = new System.Drawing.Point(119, 107);
+            this.btnDeposit.Location = new System.Drawing.Point(281, 60);
             this.btnDeposit.Name = "btnDeposit";
-            this.btnDeposit.Size = new System.Drawing.Size(110, 30);
+            this.btnDeposit.Size = new System.Drawing.Size(85, 30);
             this.btnDeposit.TabIndex = 9;
             this.btnDeposit.Text = "Deposit";
             this.btnDeposit.UseVisualStyleBackColor = true;
@@ -57,21 +58,24 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(51, 37);
+            this.label3.Location = new System.Drawing.Point(32, 31);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 19);
+            this.label3.Size = new System.Drawing.Size(59, 19);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Email";
+            this.label3.Text = "Amount";
             // 
             // frmCashDeposit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 175);
+            this.ClientSize = new System.Drawing.Size(398, 121);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnDeposit);
             this.Controls.Add(this.txtAmount);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCashDeposit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Cash Deposit";
             this.ResumeLayout(false);
             this.PerformLayout();

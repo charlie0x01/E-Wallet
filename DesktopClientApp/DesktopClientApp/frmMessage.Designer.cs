@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMessage));
             this.lblNotificationMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -48,9 +49,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(361, 124);
             this.Controls.Add(this.lblNotificationMessage);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMessage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "frmMessage";
+            this.Text = "Error Message";
             this.Load += new System.EventHandler(this.frmMessage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

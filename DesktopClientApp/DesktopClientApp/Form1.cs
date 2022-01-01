@@ -31,7 +31,7 @@ namespace DesktopClientApp
         private void frmLogin_Load(object sender, EventArgs e)
         {
             tInternetCheck.Start();
-            
+
             if (!IsInternetConnected())
             {
                 disableLogin();
@@ -86,36 +86,47 @@ namespace DesktopClientApp
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            using(var client = new HttpClient())
+            try
             {
-                var endpoint = "http://localhost:5000/auth/login";
-                var user = new User
+                using (var client = new HttpClient())
                 {
-                    email = txtEmail.Text,
-                    password = txtPassword.Text,
-                };
-                var userJson = JsonConvert.SerializeObject(user);
-                var body = new StringContent(userJson, Encoding.UTF8, "application/json");
-                var result = client.PostAsync(endpoint, body).Result.Content;
-                var response = JsonConvert.DeserializeObject<Response>(result.ReadAsStringAsync().Result);
-                if (response.success == true)
-                {
-                    txtEmail.Clear();
-                    txtPassword.Clear();
-                    this.Hide();
-                    user.accessToken = response.token;
-                    user.username = response.username;
-                    user.userid = response.userid;
-                    tInternetCheck.Stop();
-                    frmMain main = new frmMain(user);
-                    main.ShowDialog();
-                    tInternetCheck.Start();
-                    this.Show();
+                    var endpoint = "http://localhost:5000/auth/login";
+                    var user = new User
+                    {
+                        email = txtEmail.Text,
+                        password = txtPassword.Text,
+                    };
+                    var userJson = JsonConvert.SerializeObject(user);
+                    var body = new StringContent(userJson, Encoding.UTF8, "application/json");
+                    var result = client.PostAsync(endpoint, body).Result.Content;
+                    var response = JsonConvert.DeserializeObject<Response>(result.ReadAsStringAsync().Result);
+                    if (response.success == true)
+                    {
+                        txtEmail.Clear();
+                        txtPassword.Clear();
+                        this.Hide();
+                        user.accessToken = response.token;
+                        user.username = response.username;
+                        user.userid = response.userid;
+                        tInternetCheck.Stop();
+                        frmMain main = new frmMain();
+                        main.setUser(user);
+                        main.ShowDialog();
+                        tInternetCheck.Start();
+                        this.Show();
+                    }
+                    else
+                        MessageBox.Show(response.message);
                 }
-                else
-                    MessageBox.Show(response.message);
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            //this.Hide();
+            //frmMain main = new frmMain();
+            //main.ShowDialog();
+
         }
         private void disableLogin()
         {
@@ -139,6 +150,11 @@ namespace DesktopClientApp
                 btnRegister.Enabled = true;
                 lblNotificationMessage.Visible = false;
             }
+        }
+
+        private void frmLogin_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
         }
     }
 }

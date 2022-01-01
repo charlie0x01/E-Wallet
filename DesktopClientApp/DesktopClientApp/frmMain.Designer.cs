@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlTopBar = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.flpContainer = new System.Windows.Forms.FlowLayoutPanel();
@@ -40,6 +46,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblUsername = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnCashDeposit = new System.Windows.Forms.Button();
             this.lblBalance = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -47,8 +54,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.gdvExpenses = new System.Windows.Forms.DataGridView();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.expenseBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnAddNewExpense = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.chrtExpenses = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label6 = new System.Windows.Forms.Label();
             this.tInternetCheck = new System.Windows.Forms.Timer(this.components);
             this.pnlTopBar.SuspendLayout();
             this.flpContainer.SuspendLayout();
@@ -57,11 +73,15 @@
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gdvExpenses)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.expenseBindingSource)).BeginInit();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chrtExpenses)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTopBar
             // 
-            this.pnlTopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(159)))), ((int)(((byte)(71)))));
+            this.pnlTopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(100)))), ((int)(((byte)(60)))));
             this.pnlTopBar.Controls.Add(this.lblTitle);
             this.pnlTopBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTopBar.Font = new System.Drawing.Font("Microsoft YaHei UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -75,11 +95,11 @@
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Microsoft YaHei UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(375, 19);
+            this.lblTitle.Location = new System.Drawing.Point(417, 19);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(147, 30);
+            this.lblTitle.Size = new System.Drawing.Size(101, 30);
             this.lblTitle.TabIndex = 1;
-            this.lblTitle.Text = "Micro Wallet";
+            this.lblTitle.Text = "E-Wallet";
             // 
             // flpContainer
             // 
@@ -87,9 +107,10 @@
             this.flpContainer.Controls.Add(this.pnlOne);
             this.flpContainer.Controls.Add(this.panel2);
             this.flpContainer.Controls.Add(this.panel4);
+            this.flpContainer.Controls.Add(this.panel5);
             this.flpContainer.Location = new System.Drawing.Point(30, 105);
             this.flpContainer.Name = "flpContainer";
-            this.flpContainer.Size = new System.Drawing.Size(878, 705);
+            this.flpContainer.Size = new System.Drawing.Size(878, 864);
             this.flpContainer.TabIndex = 2;
             // 
             // pnlOne
@@ -118,8 +139,9 @@
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
+            this.lblEmail.BackColor = System.Drawing.Color.Transparent;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
-            this.lblEmail.Location = new System.Drawing.Point(44, 52);
+            this.lblEmail.Location = new System.Drawing.Point(49, 51);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(39, 17);
             this.lblEmail.TabIndex = 1;
@@ -158,29 +180,41 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Font = new System.Drawing.Font("Microsoft YaHei UI", 16F);
+            this.lblUsername.BackColor = System.Drawing.Color.Transparent;
+            this.lblUsername.Font = new System.Drawing.Font("Microsoft YaHei UI", 20F);
             this.lblUsername.Location = new System.Drawing.Point(41, 16);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(129, 30);
+            this.lblUsername.Size = new System.Drawing.Size(158, 35);
             this.lblUsername.TabIndex = 0;
             this.lblUsername.Text = "User Name";
             // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.btnCashDeposit);
             this.panel2.Controls.Add(this.lblBalance);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Location = new System.Drawing.Point(3, 96);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(852, 148);
+            this.panel2.Size = new System.Drawing.Size(852, 188);
             this.panel2.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft YaHei UI", 16F);
+            this.label3.Location = new System.Drawing.Point(41, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(106, 30);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "In Wallet";
             // 
             // btnCashDeposit
             // 
             this.btnCashDeposit.Font = new System.Drawing.Font("Microsoft YaHei", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCashDeposit.Location = new System.Drawing.Point(723, 98);
+            this.btnCashDeposit.Location = new System.Drawing.Point(723, 132);
             this.btnCashDeposit.Name = "btnCashDeposit";
             this.btnCashDeposit.Size = new System.Drawing.Size(110, 30);
             this.btnCashDeposit.TabIndex = 8;
@@ -191,20 +225,19 @@
             // lblBalance
             // 
             this.lblBalance.AutoSize = true;
-            this.lblBalance.Font = new System.Drawing.Font("Microsoft YaHei UI", 28F, System.Drawing.FontStyle.Bold);
-            this.lblBalance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(73)))), ((int)(((byte)(58)))));
-            this.lblBalance.Location = new System.Drawing.Point(403, 79);
+            this.lblBalance.Font = new System.Drawing.Font("Microsoft YaHei UI", 28F);
+            this.lblBalance.ForeColor = System.Drawing.Color.Black;
+            this.lblBalance.Location = new System.Drawing.Point(403, 113);
             this.lblBalance.Name = "lblBalance";
-            this.lblBalance.Size = new System.Drawing.Size(45, 50);
+            this.lblBalance.Size = new System.Drawing.Size(44, 50);
             this.lblBalance.TabIndex = 7;
             this.lblBalance.Text = "0";
-            this.lblBalance.TextChanged += new System.EventHandler(this.lblBalance_TextChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft YaHei UI", 30F);
-            this.label11.Location = new System.Drawing.Point(340, 18);
+            this.label11.Location = new System.Drawing.Point(340, 52);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(170, 52);
             this.label11.TabIndex = 6;
@@ -243,12 +276,97 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.flowLayoutPanel1);
+            this.panel4.Controls.Add(this.gdvExpenses);
+            this.panel4.Controls.Add(this.btnAddNewExpense);
             this.panel4.Controls.Add(this.label10);
-            this.panel4.Location = new System.Drawing.Point(3, 250);
+            this.panel4.Location = new System.Drawing.Point(3, 290);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(852, 459);
+            this.panel4.Size = new System.Drawing.Size(852, 342);
             this.panel4.TabIndex = 5;
+            // 
+            // gdvExpenses
+            // 
+            this.gdvExpenses.AllowUserToAddRows = false;
+            this.gdvExpenses.AllowUserToDeleteRows = false;
+            this.gdvExpenses.AutoGenerateColumns = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gdvExpenses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gdvExpenses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gdvExpenses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.descriptionDataGridViewTextBoxColumn,
+            this.amountDataGridViewTextBoxColumn,
+            this.dateDataGridViewTextBoxColumn,
+            this.Delete});
+            this.gdvExpenses.DataSource = this.expenseBindingSource;
+            this.gdvExpenses.Location = new System.Drawing.Point(45, 89);
+            this.gdvExpenses.Name = "gdvExpenses";
+            this.gdvExpenses.ReadOnly = true;
+            this.gdvExpenses.RowHeadersVisible = false;
+            this.gdvExpenses.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gdvExpenses.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.gdvExpenses.Size = new System.Drawing.Size(761, 226);
+            this.gdvExpenses.TabIndex = 10;
+            this.gdvExpenses.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gdvExpenses_CellContentClick);
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "description";
+            this.descriptionDataGridViewTextBoxColumn.FillWeight = 99.49239F;
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.descriptionDataGridViewTextBoxColumn.Width = 290;
+            // 
+            // amountDataGridViewTextBoxColumn
+            // 
+            this.amountDataGridViewTextBoxColumn.DataPropertyName = "amount";
+            this.amountDataGridViewTextBoxColumn.FillWeight = 99.49239F;
+            this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
+            this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
+            this.amountDataGridViewTextBoxColumn.ReadOnly = true;
+            this.amountDataGridViewTextBoxColumn.Width = 188;
+            // 
+            // dateDataGridViewTextBoxColumn
+            // 
+            this.dateDataGridViewTextBoxColumn.DataPropertyName = "date";
+            this.dateDataGridViewTextBoxColumn.FillWeight = 99.49239F;
+            this.dateDataGridViewTextBoxColumn.HeaderText = "Date";
+            this.dateDataGridViewTextBoxColumn.Name = "dateDataGridViewTextBoxColumn";
+            this.dateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dateDataGridViewTextBoxColumn.Width = 189;
+            // 
+            // Delete
+            // 
+            this.Delete.FillWeight = 101.5228F;
+            this.Delete.HeaderText = "Delete";
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            this.Delete.ToolTipText = "Delete";
+            this.Delete.UseColumnTextForButtonValue = true;
+            this.Delete.Width = 90;
+            // 
+            // expenseBindingSource
+            // 
+            this.expenseBindingSource.DataSource = typeof(DesktopClientApp.Models.Expense);
+            // 
+            // btnAddNewExpense
+            // 
+            this.btnAddNewExpense.Font = new System.Drawing.Font("Microsoft YaHei", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddNewExpense.Location = new System.Drawing.Point(685, 19);
+            this.btnAddNewExpense.Name = "btnAddNewExpense";
+            this.btnAddNewExpense.Size = new System.Drawing.Size(148, 30);
+            this.btnAddNewExpense.TabIndex = 9;
+            this.btnAddNewExpense.Text = "Add New Expense";
+            this.btnAddNewExpense.UseVisualStyleBackColor = true;
+            this.btnAddNewExpense.Click += new System.EventHandler(this.btnAddNewExpense_Click);
             // 
             // label10
             // 
@@ -260,13 +378,41 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Expenses";
             // 
-            // flowLayoutPanel1
+            // panel5
             // 
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 69);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(850, 388);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.chrtExpenses);
+            this.panel5.Controls.Add(this.label6);
+            this.panel5.Location = new System.Drawing.Point(3, 638);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(852, 268);
+            this.panel5.TabIndex = 10;
+            // 
+            // chrtExpenses
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chrtExpenses.ChartAreas.Add(chartArea1);
+            this.chrtExpenses.Location = new System.Drawing.Point(32, 78);
+            this.chrtExpenses.Name = "chrtExpenses";
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Expense";
+            this.chrtExpenses.Series.Add(series1);
+            this.chrtExpenses.Size = new System.Drawing.Size(786, 161);
+            this.chrtExpenses.TabIndex = 10;
+            this.chrtExpenses.Text = "chart1";
+            title1.Name = "Title1";
+            title1.Text = "Expense Chart";
+            this.chrtExpenses.Titles.Add(title1);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft YaHei UI", 16F);
+            this.label6.Location = new System.Drawing.Point(41, 18);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(239, 30);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Expense Visualization";
             // 
             // tInternetCheck
             // 
@@ -277,9 +423,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(935, 832);
+            this.ClientSize = new System.Drawing.Size(935, 970);
             this.Controls.Add(this.flpContainer);
             this.Controls.Add(this.pnlTopBar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "E-Wallet";
@@ -299,6 +446,11 @@
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gdvExpenses)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.expenseBindingSource)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chrtExpenses)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -324,7 +476,17 @@
         private System.Windows.Forms.Label lblBalance;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnCashDeposit;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Timer tInternetCheck;
+        private System.Windows.Forms.Button btnAddNewExpense;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chrtExpenses;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridView gdvExpenses;
+        private System.Windows.Forms.BindingSource expenseBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn amountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn Delete;
     }
 }

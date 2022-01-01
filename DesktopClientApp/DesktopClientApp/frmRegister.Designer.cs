@@ -51,7 +51,7 @@
             // 
             // pnlTopBar
             // 
-            this.pnlTopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(159)))), ((int)(((byte)(71)))));
+            this.pnlTopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(100)))), ((int)(((byte)(60)))));
             this.pnlTopBar.Controls.Add(this.pbMinimize);
             this.pnlTopBar.Controls.Add(this.pbExit);
             this.pnlTopBar.Controls.Add(this.lblTitle);
@@ -233,6 +233,7 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtEmail);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmRegister";

@@ -52,7 +52,7 @@
             // 
             // pnlTopBar
             // 
-            this.pnlTopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(159)))), ((int)(((byte)(71)))));
+            this.pnlTopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(100)))), ((int)(((byte)(60)))));
             this.pnlTopBar.Controls.Add(this.pbMinimize);
             this.pnlTopBar.Controls.Add(this.pbExit);
             this.pnlTopBar.Controls.Add(this.lblTitle);
@@ -231,8 +231,10 @@
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.pnlTopBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmLogin_FormClosed);
             this.Load += new System.EventHandler(this.frmLogin_Load);
             this.pnlTopBar.ResumeLayout(false);
             this.pnlTopBar.PerformLayout();

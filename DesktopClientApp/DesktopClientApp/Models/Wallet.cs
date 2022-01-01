@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesktopClientApp.Models
 {
@@ -11,7 +8,11 @@ namespace DesktopClientApp.Models
         public Wallet()
         {
             this.balance = 0;
+            this.expenses = new List<Expense>();
         }
         public double balance { get; set; }
+        public string token { get; set; }
+        public int userid { get; set; }
+        public List<Expense> expenses { get; set; }
     }
 }

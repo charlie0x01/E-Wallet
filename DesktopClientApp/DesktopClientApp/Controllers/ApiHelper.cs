@@ -1,37 +1,67 @@
 ﻿using System.Text;
-using System.Net;
-using System.IO;
+using System.Net.Http;
+using Newtonsoft.Json;
+using DesktopClientApp.Models;
+using System.Windows;
+using System;
+using System.Net.Http.Headers;
 
 namespace DesktopClientApp.Controllers
 {
     public class ApiHelper
     {
-        public string webPostMethod(string postData, string URL)
+        public static Wallet getWallet(string token, int userid, string url)
         {
-            string responseFromServer = "";
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
-            request.Method = "POST";
-            request.Credentials = CredentialCache.DefaultCredentials;
-            ((HttpWebRequest)request).UserAgent =
-                              "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 7.1; Trident/5.0)";
-            request.Accept = "/";
-            request.UseDefaultCredentials = true;
-            request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = byteArray.Length;
-            Stream dataStream = request.GetRequestStream();
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            dataStream.Close();
+            // get wallet data
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    var str = "{\"userid\": 0}".Replace("0", userid.ToString());
+                    var json = JsonConvert.SerializeObject(str);
+                    var body = new StringContent(str, Encoding.UTF8, "application/json");
+                    var result = client.PostAsync(url, body).Result.Content;
+                    var response = JsonConvert.DeserializeObject<Response>(result.ReadAsStringAsync().Result);
+                    if (response.success == true)
+                    {
+                        return response.wallet;
+                    }
+                    else
+                        MessageBox.Show(response.message);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return null;
+        }
 
-            WebResponse response = request.GetResponse();
-            dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            responseFromServer = reader.ReadToEnd();
-            reader.Close();
-            dataStream.Close();
-            response.Close();
-            return responseFromServer;
+        public static void uploadWallet(Wallet wallet, string url)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", wallet.token);
+                    var json = JsonConvert.SerializeObject(wallet);
+                    var body = new StringContent(json, Encoding.UTF8, "application/json");
+                    var result = client.PostAsync(url, body).Result.Content;
+                    var response = JsonConvert.DeserializeObject<Response>(result.ReadAsStringAsync().Result);
+                    if (response.success == true)
+                    {
+                        MessageBox.Show("Wallet Uploaded Successfully");
+                    }
+                    else
+                        MessageBox.Show(response.message);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

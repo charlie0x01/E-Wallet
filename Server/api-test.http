@@ -33,7 +33,7 @@ POST {{host}}/auth/forgetpassword
 Content-Type: application/json
 
 {
-    "email": "malikabdullahtanveer73@gmail.com"
+    "email": "malikabdullaht@gmail.com"
 }
 
 ###
@@ -56,4 +56,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlc3Bvc
 {
     "WalletId": 92,
     "Cash": 500
+}
+###
+POST {{host}}/get/wallet
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlc3Bvc2l0Q2FzaEB0ZXN0LmNvbSIsImlhdCI6MTY0MTA3MTM4NSwiZXhwIjoxNjQxMDc4NTg1fQ.84_78zeKPOODJwhUdyUUQuOxkiPp1m7lDHNnmP-35eU
+
+{
+    "userid": 97
 }
