@@ -1,4 +1,3 @@
-const crypto = require("crypto");
 const User = require("../models/User");
 const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
@@ -169,12 +168,10 @@ exports.resetPassword = async (req, res, next) => {
 };
 
 const sendToken = (user, statusCode, res) => {
-  res
-    .status(statusCode)
-    .json({
-      success: true,
-      token: User.getSignedToken(user),
-      username: user.UserName,
-      userid: user.UserID,
-    });
+  res.status(statusCode).json({
+    success: true,
+    token: User.getSignedToken(user),
+    username: user.UserName,
+    userid: user.UserID,
+  });
 };
